@@ -1,0 +1,6 @@
+#!/bin/bash
+
+gcc $1.c -o $1 && xterm -e '/usr/bin/cb_console_runner' './'$1'' #> /dev/null 2>1&
+rm -f 1;
+
+exit

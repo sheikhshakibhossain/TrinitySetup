@@ -1,0 +1,84 @@
+#!/bin/bash
+
+# THIS IS A AUTOMATION SCRIPT THAT AUTOMATES LINUX UPDATING PROCESS
+
+# Color Variable
+COLOR_END='\e[0m'
+COLOR_YELLOW='\e[1;33m'
+COLOR_RED_B='\e[1;31m'
+
+echo ""
+echo ""
+echo -e "$COLOR_YELLOW       Hello $USER, lets update this system. $COLOR_END"
+echo ""
+sudo apt update -y;
+echo ""
+echo -e "$COLOR_YELLOW       Repositories Updated Successfully. $COLOR_END"
+echo ""
+sudo apt upgrade -y;
+echo ""
+echo -e "$COLOR_YELLOW       Programs and Apps Updated Successfully. $COLOR_END"
+echo ""
+sudo apt dist-upgrade -y;
+sudo apt full-upgrade -y;
+echo ""
+echo -e "$COLOR_YELLOW       Distro Updated Successfully. $COLOR_END"
+echo ""
+
+
+# Flatpak Update
+
+if [[ $(which flatpak) == /usr/bin/flatpak  ]]
+then
+        sudo flatpak update -y;
+        echo ""
+        echo -e "$COLOR_YELLOW       Flatpak Apps Updated Successfully. $COLOR_END"
+        echo ""
+        sudo flatpak uninstall --unused -y;
+fi;
+
+
+# House keeping
+
+sudo apt autoremove -y;
+sudo apt autoclean -y;
+sudo updatedb;
+if [[ "$(dpkg --get-selections | grep deinstall | cut -f1)" != "" ]]
+then
+    sudo dpkg --purge $(dpkg --get-selections | grep deinstall | cut -f1);
+fi;
+
+echo ""
+echo ""
+echo -e "$COLOR_YELLOW       Removed All Unused Libraries Successfully. $COLOR_END"
+echo ""
+echo -e "$COLOR_YELLOW                  UPDATE DONE !!! $COLOR_END"
+echo ""
+
+
+# notes
+
+echo ""
+echo -e "$COLOR_RED_B       Process took $SECONDS seconds to finish... $COLOR_END"
+echo "
+"
+
+
+# reboot prompt
+
+if [ -f /var/run/reboot-required ]; then
+    echo -e "$COLOR_RED_B   Reboot required!	$COLOR_END"
+    read -p "   Wanna Reboot now? [y/n]: " INT_REBOOT
+    if [[  "$INT_REBOOT" == "y" || "$INT_REBOOT" == "Y" || "$INT_REBOOT" == "yes" || "$INT_REBOOT" == "Yes" || "$INT_REBOOT" == "YES" ]]
+    then
+        sudo reboot
+    else
+        echo ""
+        echo -e "$COLOR_YELLOW    Reboot Aborted...  $COLOR_END"
+        echo ""
+    fi;
+fi;
+
+
+
+exit
