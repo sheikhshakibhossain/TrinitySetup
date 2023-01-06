@@ -1,0 +1,10 @@
+if background_color 0,0,0; then
+  clear
+fi
+
+color_normal=white/black
+
+if [ -e ${prefix}/themes/kubuntu-logo/theme.txt ]; then
+  insmod png
+  theme=${prefix}/themes/kubuntu-logo/theme.txt
+fi

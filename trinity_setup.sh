@@ -1,12 +1,19 @@
 #!/bin/bash
 
+# Nala Setup
+sudo apt update && sudo apt install nala -y;
 
-sudo apt update && sudo apt install qt5-style-kvantum qt5-style-kvantum-themes -y
+# Setup Boot theme
+sudo cp -r themes /usr/share/plymouth;
+sudo update-alternatives --set default.plymouth /usr/share/plymouth/themes/kubuntu-logo/kubuntu-logo.plymouth;
+sudo update-initramfs -u;
+
+sudo nala install qt5-style-kvantum qt5-style-kvantum-themes -y
 sudo apt remove ksysguard skanlite plasma-discover kwalletmanager ksystemlog usb-creator-kde muon -y;
 sudo apt remove thunderbird vlc -y
 sudo apt autoremove -y
 sudo apt autoclean -y;
-sudo apt install wget net-tools software-properties-gtk tar codeblocks htop -y;
+sudo nala install wget net-tools software-properties-gtk tar codeblocks htop -y;
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo dpkg -i google-chrome-stable_current_amd64.deb
 wget https://download.onlyoffice.com/install/desktop/editors/linux/onlyoffice-desktopeditors_amd64.deb;
@@ -14,9 +21,9 @@ sudo dpkg -i onlyoffice-desktopeditors_amd64.deb;
 sudo apt --fix-broken install -y;
 wget https://raw.githubusercontent.com/skbtemp12/Trinity-OS/main/scripts/update
 chmod +x update 
-sudo apt install curl neofetch vim -y
+sudo nala install curl neofetch vim -y
 sudo mv update /usr/bin
-sudo apt install git mpv -y
+sudo nala install git mpv -y
 git clone https://github.com/AdnanHodzic/auto-cpufreq.git
 cd auto-cpufreq && sudo ./auto-cpufreq-installer
 sudo auto-cpufreq --install
@@ -36,7 +43,7 @@ rm -rf google-chrome-stable_current_amd64.deb onlyoffice-desktopeditors_amd64.de
 sudo updatedb
 ls
 
-sudo rm -rf auto-cpufreq/
+# sudo rm -rf auto-cpufreq/
 cd ~
 
 
@@ -67,8 +74,6 @@ sudo chmod +x c
 sudo chmod +x run
 sudo cp c /usr/bin
 sudo cp run /usr/bin
-
-
 
 # fix boot time
 sudo systemctl disable NetworkManager-wait-online.service
